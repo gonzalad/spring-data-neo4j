@@ -195,8 +195,8 @@ public final class TemplateSupport {
 					.where(Functions.id(relationships).in(Cypher.parameter(relationshipIds)))
 					.with(Constants.NAME_OF_ROOT_NODE, Functions.collect(relationships).as(Constants.NAME_OF_SYNTHESIZED_RELATIONS).asExpression())
 
-					.unwind(Constants.NAME_OF_SYNTHESIZED_RELATIONS).as("rel")
-					.with(Constants.NAME_OF_ROOT_NODE, Functions.collectDistinct(Cypher.name("rel")).as(Constants.NAME_OF_SYNTHESIZED_RELATIONS).asExpression())
+//					.unwind(Constants.NAME_OF_SYNTHESIZED_RELATIONS).as("rel")
+					.with(Constants.NAME_OF_ROOT_NODE, Functions.collectDistinct(Cypher.name(Constants.NAME_OF_SYNTHESIZED_RELATIONS)).as(Constants.NAME_OF_SYNTHESIZED_RELATIONS).asExpression())
 
 					.optionalMatch(relatedNodes)
 					.where(Functions.id(relatedNodes).in(Cypher.parameter(relatedNodeIds)))
@@ -205,10 +205,10 @@ public final class TemplateSupport {
 							Cypher.name(Constants.NAME_OF_SYNTHESIZED_RELATIONS).as(Constants.NAME_OF_SYNTHESIZED_RELATIONS),
 							Functions.collect(relatedNodes).as(Constants.NAME_OF_SYNTHESIZED_RELATED_NODES)
 					)
-					.unwind(Constants.NAME_OF_SYNTHESIZED_RELATED_NODES).as(relatedNodes.getRequiredSymbolicName())
+//					.unwind(Constants.NAME_OF_SYNTHESIZED_RELATED_NODES).as(relatedNodes.getRequiredSymbolicName())
 					.with(Constants.NAME_OF_ROOT_NODE,
 							Cypher.name(Constants.NAME_OF_SYNTHESIZED_RELATIONS).as(Constants.NAME_OF_SYNTHESIZED_RELATIONS),
-							Functions.collectDistinct(relatedNodes).as(Constants.NAME_OF_SYNTHESIZED_RELATED_NODES).asExpression()
+							Functions.collectDistinct(Cypher.name(Constants.NAME_OF_SYNTHESIZED_RELATED_NODES)).as(Constants.NAME_OF_SYNTHESIZED_RELATED_NODES).asExpression()
 					)
 					.unwind(Constants.NAME_OF_ROOT_NODE).as(rootNodeIds)
 					.with(Cypher.name(rootNodeIds).as(Constants.NAME_OF_ROOT_NODE).asExpression(),
